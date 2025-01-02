@@ -1,4 +1,4 @@
-# [)
+# The Kingdom of Algorithmia (2024)
 
 Initial attempt at everybody codes. 
 
