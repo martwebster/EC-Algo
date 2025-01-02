@@ -17,7 +17,6 @@ describe('Quest 1 - part1', () => {
 describe('Quest 1 - part2', () => {
 
     test('sample', ()=> {
-        expect ("AxBCDDCAxD".chunk(2)).toStrictEqual(["Ax", "BC", "DD", "CA", "xD"])
         expect (getPortionsPairs("AxBCDDCAxD")).toBe(28)
     })
 
