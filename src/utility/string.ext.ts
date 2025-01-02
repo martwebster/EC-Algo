@@ -15,6 +15,7 @@ declare global {
          */
         toNumbers(delim?: string): number[];
         lastChar(): string
+        chunk(size: number): string[];
     }
 }
 
@@ -48,4 +49,12 @@ String.prototype.toNumbers = function (delim: string = " ") {
 }
 String.prototype.lastChar = function () {
     return this.charAt(this.length-1)
+}
+
+String.prototype.chunk = function (size: number): string[] {
+    const result: string[] = [];
+    for (let i = 0; i < this.length; i = i+size) {
+        result.push( this.substring(i, i+size))
+    }
+    return result
 }
