@@ -16,6 +16,7 @@ declare global {
         toNumbers(delim?: string): number[];
         lastChar(): string
         chunk(size: number): string[];
+        reverse(): string;
     }
 }
 
@@ -57,4 +58,7 @@ String.prototype.chunk = function (size: number): string[] {
         result.push( this.substring(i, i+size))
     }
     return result
+}
+String.prototype.reverse = function (): string {
+    return this.split("").reverse().join("")
 }
