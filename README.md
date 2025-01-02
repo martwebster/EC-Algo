@@ -1,18 +1,13 @@
-# Advent of code Template
+# [)
 
-This template can be used to kick-start your journey in advent of code. It is a simple project set up to use Tyepscript, viTest and node. 
+Initial attempt at everybody codes. 
 
-https://adventofcode.com/
+https://everybody.codes/event/2024/quests
 
-The template provides:
-- Folder structure per day
-- Utility to load data from a file
-- Typescript extensions for String, and Arrays for the type of processing required in AOC.
-
-Each day folder contains 3 files:
-- dayx.test.ts: contains the unit tests
-- dayx.ts: contains the solution
-- dayx.txt: contains the sample data
+Each quest folder contains 3 files:
+- questx.test.ts: contains the unit tests
+- questx.ts: contains the solution
+- questx.txt: contains the sample data
 
 # Usage Codespaces (Easy)
 The template has been defined to be used with GitHub Codespaces:
