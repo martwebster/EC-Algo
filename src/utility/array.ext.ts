@@ -121,6 +121,14 @@ Array.prototype.scanAll = function() {
                     y 
                 })   
             }
+        } else if (Array.isArray(this[y])){
+            const element = this[y] as Array<any>;
+            for (let x = 0; x < element.length; x++) {
+                positions.push( {
+                    x,
+                    y
+                })
+            }
         }
     }
     return positions;
