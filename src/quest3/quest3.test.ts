@@ -1,18 +1,16 @@
 import '../utility/extensions';
 import { test, describe, expect } from 'vitest'
-import {bigDig, dig, initDig, Land} from './quest3';
+import {bigDig, dig, Land} from './quest3';
 import {readTestData} from "../utility/fileHelper";
 
 describe('Quest 3 - part1', () => {
 
     test('sample', ()=> {
         const data = readTestData('./src/quest3/part1.sample.txt');
-        // pass 1
         const land = Land.init(data)
-        initDig(land)
-        dig(land,2)
-        dig(land,3)
-        const sum = land.flat().filter(it => it.depth != undefined).sumOf(it => it.depth!)
+        dig(land)
+        dig(land)
+        const sum = land.flat().sumOf(it => it.depth!)
         expect(sum).toBe(35)
     })
 

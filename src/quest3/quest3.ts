@@ -1,82 +1,56 @@
 import {Position} from "../utility/position";
 
 export interface Land {
-    x: number,
-    y: number
-    depth?: number,
+    pos: Pos,
+    depth: number,
 }
 
 export namespace Land {
     export const init = (data: string[]): Land[][] => {
-        const lands: Land[][] = []
-        for (let y = 0; y < data.length; y++) {
-            const row = data[y];
-            const rowData: Land[] = []
-            for (let x = 0; x < row.length; x++) {
-                const letter = data[y].charAt(x)
-                if (letter == "#") {
-                    rowData.push({depth: 0, x, y})
-                } else {
-                    rowData.push({depth: undefined, x, y})
-                }
-            }
-            lands.push(rowData)
-        }
-        return lands
+        return data.factory2D<Land>(
+            (value, pos) => ({
+                pos,
+                depth: value == "#" ? 1 : 0
+            })
+        )
     }
+
     export const getLand =
         (land: Land[][], pos: Pos): Land => {
-            const undefinedLand = {
-                value: undefined,
-                x: pos.x,
-                y: pos.y
+            if (pos.y >= land.length || pos.y < 0 ||
+                pos.x >= land[pos.y].length || pos.x < 0) {
+                return {
+                    depth: 0,
+                    pos
+                }
             }
-            if (pos.y >= land.length || pos.y < 0) {
-                return undefinedLand
-            }
-            const result = land[pos.y][pos.x]
-            if (result == undefined) {
-                return undefinedLand
-            }
-            return result
+            return land[pos.y][pos.x]
         }
 }
 
-export const initDig = (land: Land[][]) => {
-    land.flat().forEach((it: Land) => {
-        if (it.depth == 0) {
-            it.depth = 1
-        }
-    })
-}
-
-export const dig = (land: Land[][], depth: number, diag: boolean = false): number => {
-    let nextLayer: Pos[] = []
-    const positions = land
+export const dig = (land: Land[][], diag: boolean = false): number => {
+    let toDig: Pos[] = []
+    const maxDepth = land.flat().maxOf( it=> it.depth )
+    const positionsAtMax = land
         .scanAll()
-        .filter(it => Land.getLand(land, it).depth == depth - 1)
+        .filter(it => Land.getLand(land, it).depth == maxDepth)
 
-    for (const pos of positions) {
+    for (const pos of positionsAtMax) {
         const adjacent = Position.adjacent(pos, diag)
         if (adjacent
             .map(it => Land.getLand(land, it))
-            .every(it => it.depth == depth - 1)) {
-            nextLayer.push(pos)
+            .every(it => it.depth == maxDepth)) {
+            toDig.push(pos)
         }
-
     }
-    nextLayer.forEach(it => Land.getLand(land, it).depth = depth)
-    return nextLayer.length;
+    toDig.forEach(it => Land.getLand(land, it).depth = maxDepth+1)
+    return toDig.length;
 }
 
 export const bigDig = (land: Land[][], diag: boolean = false) => {
-    initDig(land)
-    let depth = 2;
-    let dug = dig(land, depth, diag);
+    let dug = dig(land, diag);
     while (dug > 0) {
-        depth++
-        dug = dig(land, depth, diag)
+        dug = dig(land, diag)
     }
-    return land.flat().filter(it => it.depth != undefined).sumOf(it => it.depth!)
-
+    return land.flat().sumOf(it => it.depth)
 }

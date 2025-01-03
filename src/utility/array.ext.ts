@@ -60,6 +60,8 @@ declare global {
          * - 4 -> 2
          */
         groupByCount() : Map<number, any>
+
+        factory2D<T>(callback:(value: string, pos: Pos) => T ): Array<Array<T>>
     }
 }
 
@@ -205,4 +207,20 @@ Array.prototype.groupByCount = function () : Map<number, any> {
         }
     }
     return groups.sort((a, b) => a[0] - b[0])
+}
+
+Array.prototype.factory2D = function<T>(factory:(value: string, pos: Pos) => T ): Array<Array<T>>{
+    const all: T[][] = []
+    for (let y = 0; y < this.length; y++) {
+        const row = this[y];
+        const rowData: T[] = []
+        for (let x = 0; x < row.length; x++) {
+            const pos = {
+                x, y
+            }
+            rowData.push( factory(this[y][x], pos))
+        }
+        all.push(rowData)
+    }
+    return all
 }
