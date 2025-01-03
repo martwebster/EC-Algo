@@ -15,7 +15,7 @@ export namespace Land {
         )
     }
 
-    export const getLand =
+    export const get =
         (land: Land[][], pos: Pos): Land => {
             if (pos.y >= land.length || pos.y < 0 ||
                 pos.x >= land[pos.y].length || pos.x < 0) {
@@ -28,17 +28,17 @@ export namespace Land {
         }
 }
 
-export const dig = (allLand: Land[][], diag: boolean = false): number => {
-    const maxDepth = allLand.flat().maxOf( it=> it.depth )
+export const dig = (all: Land[][], diag: boolean = false): number => {
+    const maxDepth = all.flat().maxOf( it=> it.depth )
 
-    const toDig = allLand
+    const toDig = all
         .flat()
         .filter( land => land.depth == maxDepth)
         .filter( land => {
             const adjacent = Position.adjacent(land.pos, diag)
             return adjacent
-                .map(it => Land.getLand(allLand, it))
-                .every(it => it.depth == maxDepth);
+                .map(pos => Land.get(all, pos))
+                .every(land => land.depth == maxDepth);
         })
 
     toDig.forEach(it => it.depth = maxDepth+1)
