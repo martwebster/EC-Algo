@@ -28,22 +28,20 @@ export namespace Land {
         }
 }
 
-export const dig = (land: Land[][], diag: boolean = false): number => {
-    let toDig: Pos[] = []
-    const maxDepth = land.flat().maxOf( it=> it.depth )
-    const positionsAtMax = land
-        .scanAll()
-        .filter(it => Land.getLand(land, it).depth == maxDepth)
+export const dig = (allLand: Land[][], diag: boolean = false): number => {
+    const maxDepth = allLand.flat().maxOf( it=> it.depth )
 
-    for (const pos of positionsAtMax) {
-        const adjacent = Position.adjacent(pos, diag)
-        if (adjacent
-            .map(it => Land.getLand(land, it))
-            .every(it => it.depth == maxDepth)) {
-            toDig.push(pos)
-        }
-    }
-    toDig.forEach(it => Land.getLand(land, it).depth = maxDepth+1)
+    const toDig = allLand
+        .flat()
+        .filter( land => land.depth == maxDepth)
+        .filter( land => {
+            const adjacent = Position.adjacent(land.pos, diag)
+            return adjacent
+                .map(it => Land.getLand(allLand, it))
+                .every(it => it.depth == maxDepth);
+        })
+
+    toDig.forEach(it => it.depth = maxDepth+1)
     return toDig.length;
 }
 
