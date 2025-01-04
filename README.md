@@ -5,8 +5,8 @@ Initial attempt at everybody codes.
 https://everybody.codes/event/2024/quests
 
 Each quest folder contains 3 files:
-- questx.test.ts: contains the unit tests
-- questx.ts: contains the solution
+- quest5.test.ts: contains the unit tests
+- quest5.ts: contains the solution
 - questx.txt: contains the sample data
 
 # Usage Codespaces (Easy)

@@ -62,6 +62,8 @@ declare global {
         groupByCount() : Map<number, any>
 
         factory2D<T>(callback:(value: string, pos: Pos) => T ): Array<Array<T>>
+
+        toNumbers() : Array<number>
     }
 }
 
@@ -223,4 +225,8 @@ Array.prototype.factory2D = function<T>(factory:(value: string, pos: Pos) => T )
         all.push(rowData)
     }
     return all
+}
+
+Array.prototype.toNumbers = function (): number[]{
+    return this.map (it => Number(it));
 }
