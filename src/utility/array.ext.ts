@@ -59,11 +59,13 @@ declare global {
          * - 2 -> 1
          * - 4 -> 2
          */
-        groupByCount() : Map<number, any>
+        groupByCount() : Map<any, number>
 
         factory2D<T>(callback:(value: string, pos: Pos) => T ): Array<Array<T>>
 
         toNumbers() : Array<number>
+
+        insertAt(val: number, index:number): Array<T>
     }
 }
 
@@ -198,8 +200,8 @@ Array.prototype.swap = function (from: Pos, to: Pos ) : void {
     this[from.y][from.x] = temp;
 }
 
-Array.prototype.groupByCount = function () : Map<number, any> {
-    const groups = new Map<number, number>()
+Array.prototype.groupByCount = function () : Map<any, number> {
+    const groups = new Map<any, number>()
     for (const val of this) {
         const current = groups.get(val)
         if (current == undefined) {
@@ -229,4 +231,9 @@ Array.prototype.factory2D = function<T>(factory:(value: string, pos: Pos) => T )
 
 Array.prototype.toNumbers = function (): number[]{
     return this.map (it => Number(it));
+}
+
+
+Array.prototype.insertAt = function (val: number, index:number): Array<unknown>{
+    return [...this.slice(0, index), val, ...this.slice(index)]
 }
